@@ -157,6 +157,8 @@ ostream& operator<<(ostream& stream, const Rational& rational)
     return stream;
 }
 
+// 
+
 /**
  * Main program
  * */
