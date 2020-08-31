@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "Rational"
+		},
+		{
+			"path": "WhiteFinal"
 		}
 	],
 	"settings": {
