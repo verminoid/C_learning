@@ -171,8 +171,50 @@ ostream& operator<<(ostream& stream, const Rational& rational)
  * */
 int main(int argc, const char **argv)
 {
+    
+    Rational a,b,c;
+    char operation;
+    try
+    {
+        cin >> a >> operation >> b;
+    }
+    catch (invalid_argument&)
+    {
+        cout << "Invalid argument" << endl;
+    }
+    
+    switch (operation)
+    {
+    case "+":
+        c = a + b;
+        break;
+    case "-":
+        c = a + b;
+        break;
+    case "*":
+        c = a + b;
+        break;
+    case "/":
+        try
+        {
+            c = a + b;
+        }
+        catch (domain_error&)
+        {
+            std::cout << "Division by zero" << std::endl;
+        }
+        
+        break;
+    
+    default:
+        break;
+    }
+
+    std::cout << c << std::endl;
+    
+    
     // исключения
-    try {
+    /*try {
         Rational r(1, 0);
         cout << "Doesn't throw in case of zero denominator" << endl;
         return 1;
@@ -184,7 +226,7 @@ int main(int argc, const char **argv)
         cout << "Doesn't throw in case of division by zero" << endl;
         return 2;
     } catch (domain_error&) {
-    }
+    }*/
     
     // rational
     /*{
