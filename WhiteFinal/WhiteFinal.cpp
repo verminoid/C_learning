@@ -5,9 +5,11 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "set"
-#include "iomanip"
+#include <set>
+#include <iomanip>
+#include <sstream>
 
+using namespace std;
 
 class Date
 {
@@ -43,9 +45,9 @@ public:
     };
     void PrintDate() const
     {
-        std::cout << setw(4) << serfill('0') << year << "-" ;
-        std::cout << setw(2) << serfill('0') << month << "-" ;
-        std::cout << setw(2) << serfill('0') << day  ;
+        std::cout << setw(4) << setfill('0') << year << "-" ;
+        std::cout << setw(2) << setfill('0') << month << "-" ;
+        std::cout << setw(2) << setfill('0') << day  ;
     }
 };
 
@@ -96,7 +98,7 @@ public:
     };
 
   /* ??? */
-    Find(const Date& date) const
+    void Find(const Date& date) const
     {
         if (eve.count(date))
         {
@@ -117,7 +119,7 @@ public:
                 {
                     std::cout << s << " " << std::endl;
                 };
-            };
+            
             std::cout << std::endl;
         }
     };
