@@ -17,6 +17,7 @@ private:
     int year;
     int month;
     int day;
+
 public:
     Date()
     {
@@ -24,7 +25,7 @@ public:
         month = 1;
         day = 1;
     }
-    Date(const int& y, const int& m, const int& d)
+    Date(const int &y, const int &m, const int &d)
     {
         year = y;
         month = m;
@@ -45,21 +46,23 @@ public:
     };
     void PrintDate() const
     {
-        std::cout << setw(4) << setfill('0') << year << "-" ;
-        std::cout << setw(2) << setfill('0') << month << "-" ;
-        std::cout << setw(2) << setfill('0') << day  ;
+        std::cout << setw(4) << setfill('0') << year << "-";
+        std::cout << setw(2) << setfill('0') << month << "-";
+        std::cout << setw(2) << setfill('0') << day;
     }
 };
 
-bool operator<(const Date& lhs, const Date& rhs)
+bool operator<(const Date &lhs, const Date &rhs)
 {
-    if (lhs.GetYear()<rhs.GetYear())
+    if (lhs.GetYear() < rhs.GetYear())
     {
         return true;
-    } else if (lhs.GetMonth()<rhs.GetMonth())
+    }
+    else if (lhs.GetMonth() < rhs.GetMonth())
     {
         return true;
-    } else if (lhs.GetDay()<rhs.GetDay())
+    }
+    else if (lhs.GetDay() < rhs.GetDay())
     {
         return true;
     }
@@ -69,20 +72,21 @@ bool operator<(const Date& lhs, const Date& rhs)
 class Database
 {
 private:
-    map <Date, set<string>> eve;
+    map<Date, set<string>> eve;
+
 public:
     Database(/* args */);
     ~Database();
 
-    void AddEvent(const Date& date, const string& event)
+    void AddEvent(const Date &date, const string &event)
     {
         eve[date].insert(event);
     };
-    bool DeleteEvent(const Date& date, const string& event)
+    bool DeleteEvent(const Date &date, const string &event)
     {
         if (eve.count(date))
         {
-            if(eve.at(date).count(event))
+            if (eve.at(date).count(event))
             {
                 eve[date].erase(event);
                 return true;
@@ -90,52 +94,120 @@ public:
         };
         return false;
     };
-    int  DeleteDate(const Date& date)
+    int DeleteDate(const Date &date)
     {
         int size = eve[date].size();
         eve.erase(date);
         return size;
     };
 
-  /* ??? */
-    void Find(const Date& date) const
+    /* ??? */
+    void Find(const Date &date) const
     {
         if (eve.count(date))
         {
             set<string> dateevents = eve.at(date);
-            for (const string& s: dateevents)
+            for (const string &s : dateevents)
             {
                 std::cout << s << std::endl;
             };
         };
     };
-  
+
     void Print() const
     {
-        for (const auto& i: eve)
+        for (const auto &i : eve)
         {
             i.first.PrintDate();
-            for (const auto& s: i.second)
-                {
-                    std::cout << s << " " << std::endl;
-                };
-            
+            for (const auto &s : i.second)
+            {
+                std::cout << s << " " << std::endl;
+            };
+
             std::cout << std::endl;
         }
     };
-
 };
 
+int StringToValueDate (const string& stream, const string& str)
+{
+    if (ss.peek() == '-')
+        {   
+            int value;
+            ss.ignore(1);
+            ss >> value;
+            return value;
+        }
+    else
+    {
+        stringstream errmsg;
+        errmsd << "Wrong date format: " << str;
+        throw runtime_error(errmsg.str());
+    }
+    
+}
 
+Date StringToDate(const string &ds)
+{
+    if (ds.empty())
+    {
+        stringstream errmsg;
+        errmsd << "Wrong date format: " << ds;
+        throw runtime_error(errmsg.str());
+    }
+    else
+    {
+        stringstream ss(ds);
+        int year, month, day;
+        ss >> year;
+        month = StringToValueDate(ss, ds);
+        day = StringToValueDate(ss,ds);
+        //////////////////////////////////////////////////////////////////////////////////// проверка условий даты
+        
+    }
+}
 
 int main(int argc, char const *argv[])
 {
-    Database db;
-    
-  string command;
-  while (getline(cin, command)) {
-    
-  }
+    try
+    {
+        Database db;
+
+        string command;
+        while (getline(cin, command))
+        {
+            if (!(command.empty()))
+            {
+                string request;
+                stringstream stream(command);
+                stream >> request;
+                if (request == Print)
+                {
+                    db.Print();
+                }
+                else if (request == "Add" || request == "Del" || request == "Find")
+                {
+                    Date date;
+                    string event;
+                    string datastring;
+                    stream >> datastring;
+                }
+                else
+                {
+                    stringstream errmsg;
+                    errmsd << "Unknown command: " << request;
+                    throw runtime_error(errmsg.str());
+                }
+            }
+            
+        }
+
+        
+    }
+    catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+
     return 0;
 }
-
