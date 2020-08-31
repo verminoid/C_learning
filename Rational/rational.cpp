@@ -59,7 +59,8 @@ public:
             numer = numerator;
             denomin = denominator;
         }
-        if (denominator == 0) {
+        if (denominator == 0)
+        {
             throw invalid_argument("denominator");
         }
     }
@@ -73,7 +74,6 @@ public:
     {
         return denomin;
     }
-    
 
 private:
     int numer;
@@ -92,57 +92,60 @@ bool operator==(const Rational &lhs, const Rational &rhs)
 
 bool operator>(const Rational &lhs, const Rational &rhs)
 {
-    if (lhs.Numerator()*rhs.Denominator() > rhs.Numerator() * lhs.Denominator())
-    {return true;}
+    if (lhs.Numerator() * rhs.Denominator() > rhs.Numerator() * lhs.Denominator())
+    {
+        return true;
+    }
     else
     {
         return false;
     }
-    
 }
 
 bool operator<(const Rational &lhs, const Rational &rhs)
 {
-    if (lhs.Numerator()*rhs.Denominator() < rhs.Numerator() * lhs.Denominator())
-    {return true;}
+    if (lhs.Numerator() * rhs.Denominator() < rhs.Numerator() * lhs.Denominator())
+    {
+        return true;
+    }
     else
     {
         return false;
     }
-    
 }
 
 Rational operator+(const Rational &lhs, const Rational &rhs)
 {
     int sum_num = lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator();
     int sum_den = lhs.Denominator() * rhs.Denominator();
-    return Rational(sum_num,sum_den);
+    return Rational(sum_num, sum_den);
 }
 
 Rational operator-(const Rational &lhs, const Rational &rhs)
 {
     int sum_num = lhs.Numerator() * rhs.Denominator() - rhs.Numerator() * lhs.Denominator();
     int sum_den = lhs.Denominator() * rhs.Denominator();
-    return Rational(sum_num,sum_den);
+    return Rational(sum_num, sum_den);
 }
 Rational operator*(const Rational &lhs, const Rational &rhs)
 {
-    int num = lhs.Numerator()*rhs.Numerator();
-    int den = lhs.Denominator()*rhs.Denominator();
-    return Rational(num,den);
+    int num = lhs.Numerator() * rhs.Numerator();
+    int den = lhs.Denominator() * rhs.Denominator();
+    return Rational(num, den);
 }
 Rational operator/(const Rational &lhs, const Rational &rhs)
 {
-    if (rhs.Numerator() == 0) {
+    if (rhs.Numerator() == 0)
+    {
         throw domain_error(" to 0");
     }
-    int num = lhs.Numerator()*rhs.Denominator();
-    int den = lhs.Denominator()*rhs.Numerator();
-    return Rational(num,den);
+    int num = lhs.Numerator() * rhs.Denominator();
+    int den = lhs.Denominator() * rhs.Numerator();
+    return Rational(num, den);
 }
-istream& operator>>(istream& stream, Rational& rational)
+istream &operator>>(istream &stream, Rational &rational)
 {
-    int n,m;
+    int n, m;
     char divider;
     stream >> n;
     stream >> divider;
@@ -150,15 +153,14 @@ istream& operator>>(istream& stream, Rational& rational)
     if (!stream.fail())
     {
         if (divider == '/')
-    {
-        rational = {n,m};
+        {
+            rational = {n, m};
+        }
     }
-    
-    }
-    
+
     return stream;
 }
-ostream& operator<<(ostream& stream, const Rational& rational)
+ostream &operator<<(ostream &stream, const Rational &rational)
 {
     stream << rational.Numerator() << "/" << rational.Denominator();
     return stream;
@@ -171,50 +173,47 @@ ostream& operator<<(ostream& stream, const Rational& rational)
  * */
 int main(int argc, const char **argv)
 {
-    
-    Rational a,b,c;
+
+    Rational a, b, c;
     char operation;
     try
     {
         cin >> a >> operation >> b;
     }
-    catch (invalid_argument&)
+    catch (invalid_argument &)
     {
         cout << "Invalid argument" << endl;
     }
-    
-    switch (operation)
+
+    if (operation == '+')
     {
-    case "+":
         c = a + b;
-        break;
-    case "-":
-        c = a + b;
-        break;
-    case "*":
-        c = a + b;
-        break;
-    case "/":
+    }
+    if (operation == '-')
+    {
+        c = a - b;
+    }
+    if (operation == '*')
+    {
+        c = a * b;
+    }
+    if (operation == '/')
+    {
         try
         {
-            c = a + b;
+            c = a / b;
         }
-        catch (domain_error&)
+        catch (domain_error &)
         {
             std::cout << "Division by zero" << std::endl;
         }
-        
-        break;
-    
-    default:
-        break;
     }
 
-    std::cout << c << std::endl;
-    
-    
-    // исключения
-    /*try {
+
+cout << c << endl;
+
+// исключения
+/*try {
         Rational r(1, 0);
         cout << "Doesn't throw in case of zero denominator" << endl;
         return 1;
@@ -227,9 +226,9 @@ int main(int argc, const char **argv)
         return 2;
     } catch (domain_error&) {
     }*/
-    
-    // rational
-    /*{
+
+// rational
+/*{
         const set<Rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
         if (rs.size() != 3) {
             cout << "Wrong amount of items in the set" << endl;
@@ -258,7 +257,7 @@ int main(int argc, const char **argv)
             return 3;
         }
     }*/
-    
-    cout << "OK" << endl;
-    return 0;
+
+cout << "OK" << endl;
+return 0;
 }
