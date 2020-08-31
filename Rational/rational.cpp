@@ -15,6 +15,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <exception>
 
 using namespace std;
 
@@ -59,7 +60,7 @@ public:
             denomin = denominator;
         }
         if (denominator == 0) {
-            throw invalid_argument();
+            throw invalid_argument("denominator");
         }
     }
 
@@ -133,7 +134,7 @@ Rational operator*(const Rational &lhs, const Rational &rhs)
 Rational operator/(const Rational &lhs, const Rational &rhs)
 {
     if (rhs.Numerator() == 0) {
-        throw domain_error();
+        throw domain_error(" to 0");
     }
     int num = lhs.Numerator()*rhs.Denominator();
     int den = lhs.Denominator()*rhs.Numerator();
