@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "classes"
+		},
+		{
+			"path": "function"
+		},
+		{
+			"path": "Textstream"
+		},
+		{
+			"path": "Rational"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"string": "cpp",
+			"xstring": "cpp",
+			"algorithm": "cpp",
+			"numeric": "cpp"
+		},
+		"C_Cpp.default.intelliSenseMode": "gcc-x86",
+		"C_Cpp.intelliSenseEngineFallback": "Enabled"
+	}
+}
