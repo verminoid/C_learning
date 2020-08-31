@@ -58,6 +58,9 @@ public:
             numer = numerator;
             denomin = denominator;
         }
+        if (denominator == 0) {
+            throw invalid_argument();
+        }
     }
 
     int Numerator() const
@@ -129,6 +132,9 @@ Rational operator*(const Rational &lhs, const Rational &rhs)
 }
 Rational operator/(const Rational &lhs, const Rational &rhs)
 {
+    if (rhs.Numerator() == 0) {
+        throw domain_error();
+    }
     int num = lhs.Numerator()*rhs.Denominator();
     int den = lhs.Denominator()*rhs.Numerator();
     return Rational(num,den);
@@ -164,7 +170,23 @@ ostream& operator<<(ostream& stream, const Rational& rational)
  * */
 int main(int argc, const char **argv)
 {
-    {
+    // исключения
+    try {
+        Rational r(1, 0);
+        cout << "Doesn't throw in case of zero denominator" << endl;
+        return 1;
+    } catch (invalid_argument&) {
+    }
+
+    try {
+        auto x = Rational(1, 2) / Rational(0, 1);
+        cout << "Doesn't throw in case of division by zero" << endl;
+        return 2;
+    } catch (domain_error&) {
+    }
+    
+    // rational
+    /*{
         const set<Rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
         if (rs.size() != 3) {
             cout << "Wrong amount of items in the set" << endl;
@@ -192,7 +214,7 @@ int main(int argc, const char **argv)
             cout << "Wrong amount of items in the map" << endl;
             return 3;
         }
-    }
+    }*/
     
     cout << "OK" << endl;
     return 0;
