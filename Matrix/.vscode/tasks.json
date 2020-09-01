@@ -3,7 +3,7 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "C/C++: g++.exe build active file ${fileBasenameNoExtension}",
+            "label": "C/C++: g++.exe build active file Matrix",
             "command": "C:\\dev\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe",
             "args": [
                 "-g",
@@ -18,10 +18,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group":  "build"
         }
     ]
 }
