@@ -162,9 +162,22 @@ Date StringToDate(const string &ds)
         ss >> year;
         month = StringToValueDate(ss, ds);
         day = StringToValueDate(ss,ds);
-        //////////////////////////////////////////////////////////////////////////////////// проверка условий даты
+        if (month < 0 && month > 12)
+        {
+            stringstream errmsg;
+            errmsd << "Month value is invalid: " << month;
+            throw runtime_error(errmsg.str());
+        }
+        if (day < 0 && day > 31)
+        {
+            stringstream errmsg;
+            errmsd << "Day value is invalid: " << day;
+            throw runtime_error(errmsg.str());
+        }
+        Date date{year,month,day};
+        return date;
         
-    }
+    };
 }
 
 int main(int argc, char const *argv[])
@@ -191,6 +204,38 @@ int main(int argc, char const *argv[])
                     string event;
                     string datastring;
                     stream >> datastring;
+                    date = StringToDate(datastring);
+                    if (request == "Add")
+                    {
+                        stream >> event;
+                        AddEvent(date, event);
+                    }
+                    if (request == "Del")
+                    {
+                        stream >> event;
+                        if (event.empty())
+                        {
+                            int count;
+                            count = DeleteDate(date);
+                            std::cout << "Deleted " << count << " events." << std::endl;
+                        } else
+                        {
+                            if (DeleteEvent(date, event))
+                            {
+                                std::cout << "Deleted successfully" << std::endl;
+                            } else
+                            {
+                                std::cout << "Event not found" << std::endl;
+                            }
+                        }
+                    }
+                    if (request == "Find")
+                    {
+                        Find(data);
+
+                    }
+                    
+                    
                 }
                 else
                 {
