@@ -14,20 +14,25 @@ using namespace std;
 class Matrix
 {
 private:
+    int cols;
+    int rows;
     vector<vector<int>> matrix_2_2;
 public:
     Matrix()
     {
-        matrix_2_2 = {0};
+        cols = 0;
+        rows = 0;
     };
 
     Matrix(const int& num_rows, const int& num_cols)
     {
-        matrix_2_2.assign(num_rows, vector<int>(5));
+        Reset(num_rows,num_cols);
     };
 
-    Reset(const int& num_rows, const int& num_cols)
+    void Reset(const int& num_rows, const int& num_cols)
     {
+        cols = num_cols;
+        rows = num_rows;
         matrix_2_2.assign(num_rows, vector<int>(num_cols));
         for(auto rows : matrix_2_2)
         {
@@ -42,18 +47,23 @@ public:
     int At(const int& col, const int& row) const
     {
         
-        return matrix_2_2.At(row).At(col);
+        return matrix_2_2.at(row).at(col);
     };
     int& At(const int& col, const int& row) 
     {
         
-        return matrix_2_2.At(row).At(col);
+        return matrix_2_2.at(row).at(col);
+    };
+    int GetNumRows() const {
+      return rows;
+    };
+    int GetNumCols() const {
+      return cols;
     }
-
     
 };
 
-
+/// Операции с матрицами
 
 
 int main() {
