@@ -21,7 +21,8 @@
 			"string": "cpp",
 			"xstring": "cpp",
 			"algorithm": "cpp",
-			"numeric": "cpp"
+			"numeric": "cpp",
+			"stdexcept": "cpp"
 		},
 		"C_Cpp.default.intelliSenseMode": "gcc-x86",
 		"C_Cpp.intelliSenseEngineFallback": "Enabled"

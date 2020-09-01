@@ -8,6 +8,7 @@
 #include <set>
 #include <iomanip>
 #include <sstream>
+#include <exception>
 
 using namespace std;
 
@@ -24,14 +25,14 @@ public:
         year = 0;
         month = 1;
         day = 1;
-    }
+    };
     Date(const int &y, const int &m, const int &d)
     {
         year = y;
         month = m;
         day = d;
     };
-    ~Date();
+    
     int GetYear() const
     {
         return year;
@@ -75,8 +76,7 @@ private:
     map<Date, set<string>> eve;
 
 public:
-    Database(/* args */);
-    ~Database();
+   
 
     void AddEvent(const Date &date, const string &event)
     {
@@ -129,19 +129,19 @@ public:
     };
 };
 
-int StringToValueDate (const string& stream, const string& str)
+int StringToValueDate (stringstream& stream, const string& str)
 {
-    if (ss.peek() == '-')
+    if (stream.peek() == '-')
         {   
             int value;
-            ss.ignore(1);
-            ss >> value;
+            stream.ignore(1);
+            stream >> value;
             return value;
         }
     else
     {
         stringstream errmsg;
-        errmsd << "Wrong date format: " << str;
+        errmsg << "Wrong date format: " << str;
         throw runtime_error(errmsg.str());
     }
     
@@ -152,7 +152,7 @@ Date StringToDate(const string &ds)
     if (ds.empty())
     {
         stringstream errmsg;
-        errmsd << "Wrong date format: " << ds;
+        errmsg << "Wrong date format: " << ds;
         throw runtime_error(errmsg.str());
     }
     else
@@ -162,16 +162,16 @@ Date StringToDate(const string &ds)
         ss >> year;
         month = StringToValueDate(ss, ds);
         day = StringToValueDate(ss,ds);
-        if (month < 0 && month > 12)
+        if (month < 1 || month > 12)
         {
             stringstream errmsg;
-            errmsd << "Month value is invalid: " << month;
+            errmsg << "Month value is invalid: " << month;
             throw runtime_error(errmsg.str());
         }
-        if (day < 0 && day > 31)
+        if (day < 1 || day > 31)
         {
             stringstream errmsg;
-            errmsd << "Day value is invalid: " << day;
+            errmsg << "Day value is invalid: " << day;
             throw runtime_error(errmsg.str());
         }
         Date date{year,month,day};
@@ -185,7 +185,7 @@ int main(int argc, char const *argv[])
     try
     {
         Database db;
-
+        
         string command;
         while (getline(cin, command))
         {
@@ -194,7 +194,7 @@ int main(int argc, char const *argv[])
                 string request;
                 stringstream stream(command);
                 stream >> request;
-                if (request == Print)
+                if (request == "Print")
                 {
                     db.Print();
                 }
@@ -208,7 +208,7 @@ int main(int argc, char const *argv[])
                     if (request == "Add")
                     {
                         stream >> event;
-                        AddEvent(date, event);
+                        db.AddEvent(date, event);
                     }
                     if (request == "Del")
                     {
@@ -216,11 +216,11 @@ int main(int argc, char const *argv[])
                         if (event.empty())
                         {
                             int count;
-                            count = DeleteDate(date);
+                            count = db.DeleteDate(date);
                             std::cout << "Deleted " << count << " events." << std::endl;
                         } else
                         {
-                            if (DeleteEvent(date, event))
+                            if (db.DeleteEvent(date, event))
                             {
                                 std::cout << "Deleted successfully" << std::endl;
                             } else
@@ -231,7 +231,7 @@ int main(int argc, char const *argv[])
                     }
                     if (request == "Find")
                     {
-                        Find(data);
+                        db.Find(date);
 
                     }
                     
@@ -240,7 +240,7 @@ int main(int argc, char const *argv[])
                 else
                 {
                     stringstream errmsg;
-                    errmsd << "Unknown command: " << request;
+                    errmsg << "Unknown command: " << request;
                     throw runtime_error(errmsg.str());
                 }
             }
@@ -249,9 +249,9 @@ int main(int argc, char const *argv[])
 
         
     }
-    catch (const std::exception &e)
+    catch (exception &e)
             {
-                std::cerr << e.what() << '\n';
+                cout << e.what() << '\n';
             }
 
     return 0;
