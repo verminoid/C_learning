@@ -17,6 +17,12 @@
 		},
 		{
 			"path": "Matrix"
+		},
+		{
+			"path": "AvTemp2"
+		},
+		{
+			"path": "Blocks"
 		}
 	],
 	"settings": {
@@ -25,7 +31,8 @@
 			"xstring": "cpp",
 			"algorithm": "cpp",
 			"numeric": "cpp",
-			"stdexcept": "cpp"
+			"stdexcept": "cpp",
+			"ostream": "cpp"
 		},
 		"C_Cpp.default.intelliSenseMode": "gcc-x86",
 		"C_Cpp.intelliSenseEngineFallback": "Enabled"
