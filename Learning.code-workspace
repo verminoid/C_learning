@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "Blocks"
+		},
+		{
+			"path": "Region"
 		}
 	],
 	"settings": {
