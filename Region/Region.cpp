@@ -13,17 +13,11 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <tuple>
 
 using namespace std;
 
 // Classes and function
-struct Region
-{
-    string std_name;
-    string parent_std_name;
-    map<Lang, string> names;
-    int64_t population;
-};
 enum class Lang
 {
     DE,
@@ -31,22 +25,33 @@ enum class Lang
     IT
 };
 
-// TODO: написать эту функцию
+struct Region
+{
+    string std_name;
+    string parent_std_name;
+    map<Lang, string> names;
+    int64_t population;
+};
+
+
+bool operator<(const Region &lhs, const Region &rhs)
+{
+    return tie(lhs.std_name, lhs.parent_std_name, lhs.names, lhs.population) <
+           tie(rhs.std_name, rhs.parent_std_name, rhs.names, rhs.population);
+}
+
+
 int FindMaxRepetitionCount(const vector<Region> &regions)
 {
-    int count = 0;
-    if (regions.empty())
+    int result = 0;
+    map<Region, int> repetition_count;
+    for (const Region &region : regions)
     {
-        return 0;
+        result = max(result, ++repetition_count[region]);
     }
-    
-    for(auto item : regions)
-    {
-        
-    }
-    return count; //todo
+    return result;
 }
-    
+
 // Main Code
 int main(int argc, char const *argv[])
 {

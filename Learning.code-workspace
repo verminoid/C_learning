@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "Region"
+		},
+		{
+			"path": "TeamTasks"
 		}
 	],
 	"settings": {
