@@ -30,6 +30,7 @@ enum class TaskStatus
 // позволяющего хранить количество задач каждого статуса
 using TasksInfo = map<TaskStatus, int>;
 
+
 class TeamTasks
 {
 public:
@@ -56,6 +57,16 @@ public:
 В случае отсутствия разработчика с именем person метод PerformPersonTasks должен вернуть кортеж из двух пустых TasksInfo
 Гарантируется, что task_count является положительным числом. Если task_count превышает текущее количество невыполненных задач разработчика, достаточно считать, что task_count равен количеству невыполненных задач: дважды обновлять статус какой-либо задачи в этом случае не нужно.
 */
+    void ClearNullTask(TasksInfo& tasks)
+{
+    TasksInfo iter_task = tasks;
+    for(auto items : iter_task) // очистка пустых задач в неизмененных
+        {
+            if (items.second == 0){ tasks.erase(items.first);};
+        };
+    };
+
+
     tuple<TasksInfo, TasksInfo> PerformPersonTasks(const string &person, int task_count)
     {
         
@@ -98,14 +109,16 @@ public:
         }
         //очистка выходного кортежа от пустых задач
         unchange_task.erase(TaskStatus::DONE); // очистка неизмененных DONE
-        for(auto items : unchange_task) // очистка пустых задач в неизмененных
+        ClearNullTask(unchange_task);
+        ClearNullTask(change_task);
+/*        for(auto items : unchange_task) // очистка пустых задач в неизмененных
         {
             if (items.second == 0){ unchange_task.erase(items.first);};
         }
         for(auto items : change_task) // очистка пустых задач в измененных
         {
             if (items.second == 0){ change_task.erase(items.first);};
-        }
+        }*/
         return make_tuple(change_task, unchange_task);
     };
 
