@@ -43,6 +43,48 @@ using namespace std;
 
 // Classes and function
 
+// шаблон общий
+template <typename T>
+T& Sqr(T& value)
+{
+    value=value*value;
+    return value;
+};
+
+// Шаблон для вектора
+template <typename T>
+vector<T>& Sqr(vector<T>& vi)
+{
+    for (auto &i : vi)
+    {
+        i=Sqr(i);
+    }
+    return vi;
+};
+
+// шаблон для pair
+template <typename First, typename Second>
+pair<First,Second>& Sqr(pair<First,Second>& p)
+{
+    for(auto &i : p)
+    {
+        p.first = Sqr(p.first);
+        p.second = Sqr(p.second);
+    }
+    return p;
+}
+
+// шаблон для map
+template <typename Key, typename Value>
+map<Key,Value>& Sqr(map<Key,Value>& m)
+{
+    for(auto &i : m)
+    {
+        i=Sqr(i);
+    }
+    return m;
+}
+
 
 
 // Main Code
