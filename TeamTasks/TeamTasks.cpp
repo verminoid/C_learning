@@ -64,29 +64,49 @@ public:
             return tuple<TasksInfo, TasksInfo>{};
         }
         TasksInfo &pers_task = team[person];
-
-        
+        //заполнение выходного кортежа
+        TasksInfo unchange_task = team[person];
+        TasksInfo change_task = {
+            {TaskStatus::IN_PROGRESS, 0},
+            {TaskStatus::TESTING, 0},
+            {TaskStatus::DONE, 0},
+        };
 
         for (int i = 0; i < task_count; i++)
         {
             if (!pers_task[TaskStatus::NEW] == 0)
             {
                 pers_task[TaskStatus::NEW]--;
+                unchange_task[TaskStatus::NEW]--;
                 pers_task[TaskStatus::IN_PROGRESS]++;
+                change_task[TaskStatus::IN_PROGRESS]++;
             }
             else if (!pers_task[TaskStatus::IN_PROGRESS] == 0)
             {
                 pers_task[TaskStatus::IN_PROGRESS]--;
                 pers_task[TaskStatus::TESTING]++;
+                unchange_task[TaskStatus::IN_PROGRESS]--;
+                change_task[TaskStatus::TESTING]++;
 
             } else if (!pers_task[TaskStatus::TESTING] == 0)
             {
                 pers_task[TaskStatus::TESTING]--;
                 pers_task[TaskStatus::DONE]++;
+                unchange_task[TaskStatus::TESTING]--;
+                change_task[TaskStatus::DONE]++;
             }
         }
-
-        return tuple<TasksInfo, TasksInfo>{};
+        //очистка выходного кортежа от пустых задач
+        unchange_task.erase(TaskStatus::DONE); // очистка неизмененных DONE
+        for(auto items : unchange_task) // очистка пустых задач в неизмененных
+        {
+            if (items.second == 0){ unchange_task.erase(items.first);};
+        }
+        for(auto items : change_task) // очистка пустых задач в измененных
+        {
+            if (items.second == 0){ change_task.erase(items.first);};
+        }
+        return make_tuple(change_task, unchange_task);
     };
 
 private:
