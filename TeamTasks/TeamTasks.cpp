@@ -59,7 +59,7 @@ public:
     tuple<TasksInfo, TasksInfo> PerformPersonTasks(const string &person, int task_count)
     {
         
-        if (team.count(person))
+        if (team.count(person)==0)
         {
             return tuple<TasksInfo, TasksInfo>{};
         }
