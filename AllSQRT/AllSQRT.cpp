@@ -42,6 +42,11 @@
 using namespace std;
 
 // Classes and function
+// предварительное объявление
+template <typename T> T& Sqr(T& value);
+template <typename T> vector<T>& Sqr(vector<T>& vi);
+template <typename First, typename Second> pair<First,Second>& Sqr(pair<First,Second>& p);
+template <typename Key, typename Value> map<Key,Value>& Sqr(map<Key,Value>& m);
 
 // шаблон общий
 template <typename T>
@@ -66,11 +71,10 @@ vector<T>& Sqr(vector<T>& vi)
 template <typename First, typename Second>
 pair<First,Second>& Sqr(pair<First,Second>& p)
 {
-    for(auto &i : p)
-    {
+    
         p.first = Sqr(p.first);
         p.second = Sqr(p.second);
-    }
+    
     return p;
 }
 
@@ -80,7 +84,7 @@ map<Key,Value>& Sqr(map<Key,Value>& m)
 {
     for(auto &i : m)
     {
-        i=Sqr(i);
+        i.second = Sqr(i.second);
     }
     return m;
 }
