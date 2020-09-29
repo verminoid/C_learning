@@ -91,59 +91,152 @@ istream &operator>>(istream &is, Query &q)
 
 struct BusesForStopResponse
 {
-    // Наполните полями эту структуру
+    
+    bool error;
+    vector<string> Buses;
 };
 
 ostream &operator<<(ostream &os, const BusesForStopResponse &r)
 {
     // Реализуйте эту функцию
+    if (r.error)
+    {
+        os << "No stop" << endl;
+    } else
+    {
+        bool first = 1;
+        for(auto bus : r.Buses)
+        {
+            if (first)
+            {
+                os << bus;
+                first = 0;
+            } else
+            {
+                os << " " << bus;
+            }
+        
+        }
+        os << endl;
+    }
+    
     return os;
 }
 
 struct StopsForBusResponse
 {
-    // Наполните полями эту структуру
+    bool error;
+    string Bus;
+    vector<string> Stops;
+    map<string, vector<string>> bus_on_stop;
 };
 
 ostream &operator<<(ostream &os, const StopsForBusResponse &r)
 {
     // Реализуйте эту функцию
+    if (r.error)
+    {
+        os << "No Bus" << endl;
+    } else
+    {
+        for(auto stop : r.Stops)
+        {
+            os <<"Stop"<< stop << ":";
+            int count = 0;
+            for(auto bus : r.bus_on_stop.at(stop))
+            {
+                
+                if (!(bus == r.Bus)){
+                    os << " " <<  bus;
+                    count++;
+                }
+                
+            }
+            if (count == 0)
+            {
+                os << " No interchange";
+            }
+            os << endl;
+        }
+    }
+    
+    
     return os;
 }
 
 struct AllBusesResponse
 {
-    // Наполните полями эту структуру
+    
+    map<string, vector<string>> AllBus;
 };
 
 ostream &operator<<(ostream &os, const AllBusesResponse &r)
 {
     // Реализуйте эту функцию
+    if (r.AllBus.empty())
+    {
+        os << "No Bases" << endl;
+    } else
+    {
+        for(auto item : r.AllBus)
+        {
+            os <<"Bus" << item.first << ":";
+            for(auto stop : item.second)
+            {
+                os << " " << stop;
+            }
+            os << endl;
+        }
+    }
+    
+    
     return os;
 }
 
 class BusManager
 {
-public:
+public: 
     void AddBus(const string &bus, const vector<string> &stops)
     {
         // Реализуйте этот метод
+        buses_to_stops[bus] = stops;
+        for(auto &stop : stops)
+        {
+            stops_to_buses[stop].push_back(bus);
+        }
     }
 
     BusesForStopResponse GetBusesForStop(const string &stop) const
     {
-        // Реализуйте этот метод
+        bool error =0;
+        if (stops_to_buses.count(stop)==0)
+        {
+             error =1;
+             return {error,};
+        }
+        return {error, stops_to_buses.at(stop)};
     }
 
     StopsForBusResponse GetStopsForBus(const string &bus) const
     {
-        // Реализуйте этот метод
+        bool error = 0;
+        if (buses_to_stops.count(bus)==0)
+        {
+            error = 1;
+            return {error,};
+        }
+        return {error, bus, buses_to_stops.at(bus), stops_to_buses};
+
     }
 
     AllBusesResponse GetAllBuses() const
     {
-        // Реализуйте этот метод
+        return {buses_to_stops};
     }
+
+private:
+    map<string, vector<string>> buses_to_stops;
+    map<string, vector<string>> stops_to_buses;
 };
 
 // Не меняя тела функции main, реализуйте функции и классы выше
